@@ -1,19 +1,22 @@
 package parser;
 
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.Assertions;
 
 public class ParserTest {
 
-    @Test
+    @Test()
     public void testForSucess() {
         Parser parser = new Parser("(asdfg)");
         parser.Start();
     }
 
-    @Test(expected=RuntimeException.class)
+    @Test()
     public void testForFail(){
         Parser parser = new Parser("(asdfg.........)");
-        parser.Start();
+        Assertions.assertThrows(RuntimeException.class, () -> {
+            parser.Start();
+        }); 
     }
 
 }
