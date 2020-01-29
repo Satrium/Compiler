@@ -1,6 +1,6 @@
 package parser;
 
-import syntaxtree;
+import syntaxtree.*;
 
 public class Parser
 {
@@ -127,9 +127,9 @@ public class Parser
         }
     }
 
-    private bool IsAlphaNum()
+    private boolean IsAlphaNum()
     {
-        return (eingabe.charAt(position) >= '0' && eingabe.charAt(position) <= '9' || eingabe.charAt(position) >= 'A' && eingabe.charAt(position) <= 'Z' || eingabe.charAt(position) >= 'a' && eingabe.charAt(position) <= 'z')
+        return (eingabe.charAt(position) >= '0' && eingabe.charAt(position) <= '9' || eingabe.charAt(position) >= 'A' && eingabe.charAt(position) <= 'Z' || eingabe.charAt(position) >= 'a' && eingabe.charAt(position) <= 'z');
     }
 
     private void match(char symbol)

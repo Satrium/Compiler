@@ -1,7 +1,6 @@
 package syntaxtree;
 
-Interface Visitable
+public interface Visitable
 {
-    public accept(Visitor visitor)
-
+    void accept(Visitor visitor);
 }
