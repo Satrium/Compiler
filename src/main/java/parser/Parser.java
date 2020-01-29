@@ -24,11 +24,15 @@ public class Parser
         {
             Visitable param = null;
             match('(');
-            return new BinOpNode("°", RegExp(param), new OperandNode("#"));
+            Visitable subTree = new BinOpNode("°", RegExp(param), new OperandNode("#"));
+            match(')');
+            match('#');
+            assertEndOfInput();
+            return new BinOpNode("°", subTree, new OperandNode("#"));
         }
         else
         {
-            throw new RuntimeException("no acceptet Syntax");
+            throw new RuntimeException("Syntax Error!");
         }
     }
 
@@ -69,9 +73,13 @@ public class Parser
             }
             return Term(param);
         }
-        else
+        else if (eingabe.charAt(position) == '|' || eingabe.charAt(position) == ')')
         {
             return parameter;
+        }
+        else
+        {
+            throw new RuntimeException("Syntax Error!");
         }
         
     }
