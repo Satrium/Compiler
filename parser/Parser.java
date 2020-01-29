@@ -7,7 +7,7 @@ public class Parser
     private int position;
     private final String eingabe;
 
-    private void Parser(String eingabe)
+    public Parser(String eingabe)
     {
         this.eingabe = eingabe;
         this.position = 0;
@@ -18,19 +18,23 @@ public class Parser
         if(eingabe.charAt(position) == '#')
         {
             match('#');
-            return new OperandNode('#');
+            return new OperandNode("#");
         }
         else if (eingabe.charAt(position) == '(')
         {
-            Visitatble param = null;
+            Visitable param = null;
             match('(');
-            return new BinOpNode('°', RegExp(param), new OperandNode('#'));
+            return new BinOpNode("°", RegExp(param), new OperandNode("#"));
+        }
+        else
+        {
+            throw new RuntimeException("no acceptet Syntax");
         }
     }
 
     private Visitable RegExp(Visitable parameter)
     {
-        Visitatble param = null;
+        Visitable param = null;
         return RE(Term(param));
     }
 
@@ -38,9 +42,9 @@ public class Parser
     {
         if(eingabe.charAt(position) == '|')
         {
-            Visitatble param = null;
+            Visitable param = null;
             match('|');
-            param = new BinOpNode('|', parameter, Term(null));
+            param = new BinOpNode("|", parameter, Term(null));
             return RE(param);
         }
         else
@@ -52,12 +56,12 @@ public class Parser
 
     private Visitable Term(Visitable parameter)
     {
-        if(IsAlphaNum() || eingabe.charAt('('))
+        if(IsAlphaNum() || eingabe.charAt(position) == '(')
         {
-            Visitatble param = null;
+            Visitable param = null;
             if(parameter != null)
             {
-                param = new BinOpNode('°', parameter, Factor(null));
+                param = new BinOpNode("°", parameter, Factor(null));
             }
             else 
             {
@@ -74,7 +78,6 @@ public class Parser
 
     private Visitable Factor(Visitable parameter)
     {
-        Visitatble param = null;
         return HOp(Elem(null));
     }
 
@@ -83,17 +86,17 @@ public class Parser
         if(eingabe.charAt(position) == '*')
         {
             match('*');
-            return new UnaryOpNode('*', parameter);
+            return new UnaryOpNode("*", parameter);
         }
         else if(eingabe.charAt(position) == '+')
         {
             match('+');
-            return new UnaryOpNode('+', parameter);
+            return new UnaryOpNode("+", parameter);
         }
         else if(eingabe.charAt(position) == '?')
         {
             match('?');
-            return new UnaryOpNode('?', parameter);
+            return new UnaryOpNode("?", parameter);
         }
         else
         {
@@ -103,7 +106,7 @@ public class Parser
 
     private Visitable Elem(Visitable parameter)
     {
-        Visitatble param = null;
+        Visitable param = null;
         if(IsAlphaNum())
         {
             return AlphaNum(null);
@@ -123,7 +126,11 @@ public class Parser
         if(IsAlphaNum())
         {
             match(eingabe.charAt(position));
-            return OperandNode(eingabe.charAt(position-1));
+            return new OperandNode(Character.toString(eingabe.charAt(position-1)));
+        }
+        else
+        {
+            throw new RuntimeException("Syntaxerror unacceted sign");
         }
     }
 

@@ -13,7 +13,7 @@ public class BinOpNode extends SyntaxNode implements Visitable{
     }
 
     @Override
-    public void accept(Visitor vistor)
+    public void accept(Visitor visitor)
     {
         visitor.visit(this);
     }

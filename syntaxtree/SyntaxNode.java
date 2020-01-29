@@ -1,5 +1,8 @@
 package syntaxtree;
 
+import java.util.HashSet;
+import java.util.Set;
+
 public abstract class SyntaxNode
 {
     public Boolean nullable;
