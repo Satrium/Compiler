@@ -22,13 +22,12 @@ public class Parser
         }
         else if (eingabe.charAt(position) == '(')
         {
-            Visitable param = null;
             match('(');
-            Visitable subTree = new BinOpNode("°", regExp(param), new OperandNode("#"));
+            Visitable subTree = new BinOpNode("°", regExp(null), new OperandNode("#"));
             match(')');
             match('#');
             assertEndOfInput();
-            return new BinOpNode("°", subTree, new OperandNode("#"));
+            return subTree;
         }
         else
         {
@@ -52,10 +51,8 @@ public class Parser
     {
         if(eingabe.charAt(position) == '|')
         {
-            Visitable param = null;
             match('|');
-            param = new BinOpNode("|", parameter, term(null));
-            return re(param);
+            return re(new BinOpNode("|", parameter, term(null)));
         }
         else if(eingabe.charAt(position) == ')')
         {
@@ -72,16 +69,14 @@ public class Parser
     {
         if(isAlphaNum() || eingabe.charAt(position) == '(')
         {
-            Visitable param = null;
             if(parameter != null)
             {
-                param = new BinOpNode("°", parameter, factor(null));
+                return term(new BinOpNode("°", parameter, factor(null)));
             }
             else 
             {
-                param = factor(null);
+                return term(factor(null));
             }
-            return term(param);
         }
         else if (eingabe.charAt(position) == '|' || eingabe.charAt(position) == ')')
         {
@@ -123,7 +118,7 @@ public class Parser
             match('?');
             return new UnaryOpNode("?", parameter);
         }
-        else if(isAlphaNum() || eingabe.charAt(position) == '(' || eingabe.charAt(position) == '#' || eingabe.charAt(position) == ')' )
+        else if(isAlphaNum() || eingabe.charAt(position) == '(' || eingabe.charAt(position) == '|' || eingabe.charAt(position) == ')' )
         {
             return parameter;
         }
