@@ -13,7 +13,7 @@ public class Parser
         this.position = 0;
     }
 
-    public Visitable Start()
+    public Visitable start()
     {
         if(eingabe.charAt(position) == '#')
         {
@@ -24,7 +24,7 @@ public class Parser
         {
             Visitable param = null;
             match('(');
-            Visitable subTree = new BinOpNode("°", RegExp(param), new OperandNode("#"));
+            Visitable subTree = new BinOpNode("°", regExp(param), new OperandNode("#"));
             match(')');
             match('#');
             assertEndOfInput();
@@ -36,42 +36,52 @@ public class Parser
         }
     }
 
-    private Visitable RegExp(Visitable parameter)
+    private Visitable regExp(Visitable parameter)
     {
-        Visitable param = null;
-        return RE(Term(param));
+        if(eingabe.charAt(position) == '(' || isAlphaNum())
+        {
+            return re(term(null));
+        }
+        else
+        {
+            throw new RuntimeException("Syntax Error!");
+        }
     }
 
-    private Visitable RE(Visitable parameter)
+    private Visitable re(Visitable parameter)
     {
         if(eingabe.charAt(position) == '|')
         {
             Visitable param = null;
             match('|');
-            param = new BinOpNode("|", parameter, Term(null));
-            return RE(param);
+            param = new BinOpNode("|", parameter, term(null));
+            return re(param);
+        }
+        else if(eingabe.charAt(position) == ')')
+        {
+            return parameter;
         }
         else
         {
-            return parameter;
+            throw new RuntimeException("Syntax Error!");
         }
     }
 
 
-    private Visitable Term(Visitable parameter)
+    private Visitable term(Visitable parameter)
     {
-        if(IsAlphaNum() || eingabe.charAt(position) == '(')
+        if(isAlphaNum() || eingabe.charAt(position) == '(')
         {
             Visitable param = null;
             if(parameter != null)
             {
-                param = new BinOpNode("°", parameter, Factor(null));
+                param = new BinOpNode("°", parameter, factor(null));
             }
             else 
             {
-                param = Factor(null);
+                param = factor(null);
             }
-            return Term(param);
+            return term(param);
         }
         else if (eingabe.charAt(position) == '|' || eingabe.charAt(position) == ')')
         {
@@ -84,9 +94,16 @@ public class Parser
         
     }
 
-    private Visitable Factor(Visitable parameter)
+    private Visitable factor(Visitable parameter)
     {
-        return HOp(Elem(null));
+        if(eingabe.charAt(position) == '(' || isAlphaNum())
+        {
+            return HOp(element(null));
+        }
+        else
+        {
+            throw new RuntimeException("Syntax Error!");
+        }
     }
 
     private Visitable HOp(Visitable parameter)
@@ -106,43 +123,50 @@ public class Parser
             match('?');
             return new UnaryOpNode("?", parameter);
         }
-        else
+        else if(isAlphaNum() || eingabe.charAt(position) == '(' || eingabe.charAt(position) == '#' || eingabe.charAt(position) == ')' )
         {
             return parameter;
         }
-    }
-
-    private Visitable Elem(Visitable parameter)
-    {
-        Visitable param = null;
-        if(IsAlphaNum())
-        {
-            return AlphaNum(null);
-        }
         else
         {
-            
+            throw new RuntimeException("Syntax Error!");
+        }
+    }
+
+    private Visitable element(Visitable parameter)
+    {
+        Visitable param = null;
+        if(isAlphaNum())
+        {
+            return alphaNum(null);
+        }
+        else if(eingabe.charAt(position) == '(')
+        {
             match('(');
-            param = RegExp(null);
+            param = regExp(null);
             match(')');
             return param;
         }
+        else
+        {
+            throw new RuntimeException("Syntax Error!");
+        }
     }
 
-    private Visitable AlphaNum(Visitable parameter)
+    private Visitable alphaNum(Visitable parameter)
     {
-        if(IsAlphaNum())
+        if(isAlphaNum())
         {
             match(eingabe.charAt(position));
             return new OperandNode(Character.toString(eingabe.charAt(position-1)));
         }
         else
         {
-            throw new RuntimeException("Syntaxerror unacceted sign");
+            throw new RuntimeException("Syntax Error!");
         }
     }
 
-    private boolean IsAlphaNum()
+    private boolean isAlphaNum()
     {
         return (eingabe.charAt(position) >= '0' && eingabe.charAt(position) <= '9' || eingabe.charAt(position) >= 'A' && eingabe.charAt(position) <= 'Z' || eingabe.charAt(position) >= 'a' && eingabe.charAt(position) <= 'z');
     }
