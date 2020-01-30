@@ -1,3 +1,6 @@
+//Datei von Valenin Aßfalg
+//Matrikel-Nr 5835045
+
 package parser;
 
 import syntaxtree.*;
@@ -183,7 +186,7 @@ public class Parser
         position++;
     }
     
-    //dunno why it exists
+
     private void assertEndOfInput()
     {
         if (position < eingabe.length())
