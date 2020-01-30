@@ -7,7 +7,7 @@ public class ParserTest {
 
     @Test()
     public void testForSucess() {
-        Parser parser = new Parser("(asdfg)#");
+        Parser parser = new Parser("(asdfg(a|b)*)#");
         parser.start();
     }
 
