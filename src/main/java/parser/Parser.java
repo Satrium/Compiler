@@ -18,9 +18,14 @@ public class Parser
 
     public Visitable start()
     {
-        if(eingabe.charAt(position) == '#')
+        if(eingabe == null || eingabe.isEmpty())
+        {
+            throw new RuntimeException("Syntax Error!");
+        }
+        else if(eingabe.charAt(position) == '#')
         {
             match('#');
+            assertEndOfInput();
             return new OperandNode("#");
         }
         else if (eingabe.charAt(position) == '(')
