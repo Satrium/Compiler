@@ -14,8 +14,8 @@ public class GenericLexer {
         char[] chars = s.toCharArray();
         DFAState state = null;
         //Find start state
-        for(DFAState tmpState:matrix.keySet()){
-            if(tmpState.index == 0){
+        for(DFAState tmpState:matrix.keySet()) {
+            if (tmpState.index == 0) {
                 state = tmpState;
                 break;
             }
