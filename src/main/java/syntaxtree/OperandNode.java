@@ -1,5 +1,7 @@
 package syntaxtree;
 
+import java.util.Set;
+
 public class OperandNode extends SyntaxNode implements Visitable
 {
     public int position;
@@ -14,5 +16,15 @@ public class OperandNode extends SyntaxNode implements Visitable
     public void accept(Visitor visitor)
     {
         visitor.visit(this);
+    }
+
+    @Override
+    public Set<Integer> getFirstPos() {
+        return firstpos;
+    }
+
+    @Override
+    public Set<Integer> getLastPos() {
+        return lastpos;
     }
 }

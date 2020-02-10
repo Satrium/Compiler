@@ -1,5 +1,7 @@
 package syntaxtree;
 
+import java.util.Set;
+
 public class BinOpNode extends SyntaxNode implements Visitable{
     public String operator;
     public Visitable left;
@@ -17,4 +19,16 @@ public class BinOpNode extends SyntaxNode implements Visitable{
     {
         visitor.visit(this);
     }
+
+    @Override
+    public Set<Integer> getFirstPos() {
+        return firstpos;
+    }
+
+    @Override
+    public Set<Integer> getLastPos() {
+        return lastpos;
+    }
+
+
 }
