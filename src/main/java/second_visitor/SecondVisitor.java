@@ -24,20 +24,40 @@ public class SecondVisitor implements Visitor {
 
     @Override
     public void visit(BinOpNode node) {
-        // ° |
         Iterator<Integer> iterator = node.left.getLastPos().iterator();
         switch (node.operator) {
-            case '°':
+            case "°":
                 while(iterator.hasNext()) {
-                    FollowposTableEntry followposTableEntry = 
+                    int nextPosition = iterator.next();
+                    FollowposTableEntry followposTableEntry = followposTableEntries.get(nextPosition);
+                    followposTableEntry.getFollowpos().addAll(node.right.getFirstPos());
+                    followposTableEntries.put(nextPosition, followposTableEntry);
                 }
                 break;
-            case '|':
+            case "|":
+                break;
+            default:
+                throw new RuntimeException("No valid BinOpNode.");
         }
     }
 
     @Override
     public void visit(UnaryOpNode node) {
-        // * + ?
+        Iterator<Integer> iterator = node.getLastPos().iterator();
+        switch (node.operator) {
+            case "*":
+            case "+":
+                while(iterator.hasNext()) {
+                    int nextPosition = iterator.next();
+                    FollowposTableEntry followposTableEntry = followposTableEntries.get(nextPosition);
+                    followposTableEntry.getFollowpos().addAll(node.getFirstPos());
+                    followposTableEntries.put(nextPosition, followposTableEntry);
+                }
+                break;
+            case "?":
+                break;
+            default:
+                throw new RuntimeException("No valid UnaryOpNode.");
+        }
     }
 }
