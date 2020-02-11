@@ -33,22 +33,15 @@ public class DEA_Erzeuger {
             for(char a: this.inputAlphabet){
                 Set<Integer> followingStates = getFollowingStates(state.positionsSet, a);
 
-                DFAState newState = new DFAState(indexStatic++, false, followingStates);
+                DFAState newState = new DFAState(indexStatic++, followingStates.contains(this.positionEndSymbol), followingStates);
 
                 transitionMatrix.get(state).put(a, newState);
 
                 if(!this.transitionMatrix.containsKey(newState) &&
                         !qStates.contains(newState)){
-                    setAcceptingState(newState);
                     qStates.add(newState);
                 }
             }
-        }
-    }
-    
-    private void setAcceptingState(DFAState state){
-        if(state.positionsSet.contains(this.positionEndSymbol)){
-            state.isAcceptingState = true;
         }
     }
 

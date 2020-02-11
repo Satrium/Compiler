@@ -5,7 +5,7 @@ import java.util.Set;
 public class DFAState
 {
     public final int index;
-    public Boolean isAcceptingState;
+    public final Boolean isAcceptingState;
     public final Set<Integer> positionsSet;
     public DFAState(int index,
                     Boolean isAcceptingState,
