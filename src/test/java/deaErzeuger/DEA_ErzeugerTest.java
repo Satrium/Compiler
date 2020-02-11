@@ -66,7 +66,7 @@ public class DEA_ErzeugerTest {
         map.put('b', DFA123);
         transitionTable.put(DFA1236, map);
 
-        DEA_Erzeuger dea_erzeuger = new DEA_Erzeuger(1, followposTable);
+        DEA_Erzeuger dea_erzeuger = new DEA_Erzeuger(followposTable);
         assertEquals(transitionTable, dea_erzeuger.transitionMatrix);
     }
 }

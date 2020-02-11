@@ -1,5 +1,6 @@
 package DEA_Erzeuger;
 
+import com.sun.source.tree.Tree;
 import lexer.DFAState;
 import second_visitor.FollowposTableEntry;
 
@@ -10,9 +11,9 @@ public class DEA_Erzeuger {
     private Map<Integer, FollowposTableEntry> followposTable;
     public Map<DFAState, Map<Character, DFAState>> transitionMatrix;
     private int positionEndSymbol;
-    private static int indexStatic = 1;
+    private static int indexStatic = 0;
 
-    public DEA_Erzeuger(int startPosition, Map<Integer, FollowposTableEntry> followposTable){
+    public DEA_Erzeuger(Map<Integer, FollowposTableEntry> followposTable){
         this.followposTable = followposTable;
         this.transitionMatrix = new HashMap<>();
 
@@ -20,7 +21,8 @@ public class DEA_Erzeuger {
         this.inputAlphabet = inputAlphabet(this.followposTable);
 
         Queue<DFAState> qStates = new LinkedList<>();
-        qStates.add(new DFAState(indexStatic++, false, this.followposTable.get(startPosition).followpos));
+        TreeMap<Integer, FollowposTableEntry> treeMap = (TreeMap<Integer, FollowposTableEntry>)this.followposTable;
+        qStates.add(new DFAState(indexStatic++, false, treeMap.get(treeMap.firstKey()).followpos));
 
         // The main loop
         while(!qStates.isEmpty()){
@@ -61,7 +63,7 @@ public class DEA_Erzeuger {
             if(followposTableEntry.get(i).symbol.charAt(0) != '#'){
                 result.add(followposTableEntry.get(i).symbol.charAt(0));
             }else{
-                this.positionEndSymbol = i;
+                this.positionEndSymbol = followposTableEntry.get(i).position;
             }
         }
         return result;
