@@ -26,10 +26,10 @@ public class SecondVisitor implements Visitor {
     public void visit(BinOpNode node) {
         // ° |
         Iterator<Integer> iterator = node.left.getLastPos().iterator();
-        switch (node.operator) {
+        switch (node.operator.charAt(0)) {
             case '°':
                 while(iterator.hasNext()) {
-                    FollowposTableEntry followposTableEntry = 
+                    FollowposTableEntry followposTableEntry = new FollowposTableEntry(0, "");
                 }
                 break;
             case '|':
