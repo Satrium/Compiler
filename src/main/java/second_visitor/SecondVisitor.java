@@ -1,9 +1,6 @@
 package second_visitor;
 
-import syntaxtree.BinOpNode;
-import syntaxtree.OperandNode;
-import syntaxtree.UnaryOpNode;
-import syntaxtree.Visitor;
+import syntaxtree.*;
 
 import java.util.Iterator;
 import java.util.SortedMap;
@@ -14,6 +11,11 @@ public class SecondVisitor implements Visitor {
 
     public SecondVisitor() {
         followposTableEntries = new TreeMap<>();
+    }
+
+    public SortedMap<Integer, FollowposTableEntry> getFollowposTable(Visitable visitable) {
+        DepthFirstIterator.traverse(visitable, this);
+        return followposTableEntries;
     }
 
     @Override

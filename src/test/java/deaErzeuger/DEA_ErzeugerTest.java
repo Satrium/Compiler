@@ -7,7 +7,7 @@ import second_visitor.FollowposTableEntry;
 
 import java.util.*;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class DEA_ErzeugerTest {
     @Test
