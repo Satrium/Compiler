@@ -7,21 +7,16 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class SecondVisitor implements Visitor {
-    private SortedMap<Integer, FollowposTableEntry> followposTableEntries;
+    private SortedMap<Integer, FollowposTableEntry> followposTable = new TreeMap<>();
 
-    public SecondVisitor() {
-        followposTableEntries = new TreeMap<>();
-    }
-
-    public SortedMap<Integer, FollowposTableEntry> getFollowposTable(Visitable visitable) {
-        DepthFirstIterator.traverse(visitable, this);
-        return followposTableEntries;
+    public SortedMap<Integer, FollowposTableEntry> getFollowposTable() {
+        return followposTable;
     }
 
     @Override
     public void visit(OperandNode node) {
         FollowposTableEntry followposTableEntry = new FollowposTableEntry(node.position, node.symbol);
-        followposTableEntries.put(followposTableEntry.position, followposTableEntry);
+        followposTable.put(followposTableEntry.position, followposTableEntry);
     }
 
     @Override
@@ -31,9 +26,9 @@ public class SecondVisitor implements Visitor {
             case "°":
                 while(iterator.hasNext()) {
                     int nextPosition = iterator.next();
-                    FollowposTableEntry followposTableEntry = followposTableEntries.get(nextPosition);
+                    FollowposTableEntry followposTableEntry = followposTable.get(nextPosition);
                     followposTableEntry.getFollowpos().addAll(node.right.getFirstPos());
-                    followposTableEntries.put(nextPosition, followposTableEntry);
+                    followposTable.put(nextPosition, followposTableEntry);
                 }
                 break;
             case "|":
@@ -51,9 +46,9 @@ public class SecondVisitor implements Visitor {
             case "+":
                 while(iterator.hasNext()) {
                     int nextPosition = iterator.next();
-                    FollowposTableEntry followposTableEntry = followposTableEntries.get(nextPosition);
+                    FollowposTableEntry followposTableEntry = followposTable.get(nextPosition);
                     followposTableEntry.getFollowpos().addAll(node.getFirstPos());
-                    followposTableEntries.put(nextPosition, followposTableEntry);
+                    followposTable.put(nextPosition, followposTableEntry);
                 }
                 break;
             case "?":
