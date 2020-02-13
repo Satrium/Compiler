@@ -38,8 +38,4 @@ public class FollowposTableEntry {
         hashCode = 31 * hashCode + this.followpos.hashCode();
         return hashCode;
     }
-
-    public Set<Integer> getFollowpos() {
-        return followpos;
-    }
 }

@@ -27,7 +27,7 @@ public class SecondVisitor implements Visitor {
                 while(iterator.hasNext()) {
                     int nextPosition = iterator.next();
                     FollowposTableEntry followposTableEntry = followposTable.get(nextPosition);
-                    followposTableEntry.getFollowpos().addAll(node.right.getFirstPos());
+                    followposTableEntry.followpos.addAll(node.right.getFirstPos());
                     followposTable.put(nextPosition, followposTableEntry);
                 }
                 break;
@@ -47,7 +47,7 @@ public class SecondVisitor implements Visitor {
                 while(iterator.hasNext()) {
                     int nextPosition = iterator.next();
                     FollowposTableEntry followposTableEntry = followposTable.get(nextPosition);
-                    followposTableEntry.getFollowpos().addAll(node.getFirstPos());
+                    followposTableEntry.followpos.addAll(node.getFirstPos());
                     followposTable.put(nextPosition, followposTableEntry);
                 }
                 break;
