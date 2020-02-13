@@ -1,4 +1,4 @@
-package DEA_Erzeuger;
+package deaErzeuger;
 
 import com.sun.source.tree.Tree;
 import lexer.DFAState;
