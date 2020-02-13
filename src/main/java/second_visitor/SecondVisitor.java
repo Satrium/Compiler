@@ -3,6 +3,7 @@ package second_visitor;
 import syntaxtree.*;
 
 import java.util.Iterator;
+import java.util.Set;
 import java.util.SortedMap;
 import java.util.TreeMap;
 
@@ -21,40 +22,23 @@ public class SecondVisitor implements Visitor {
 
     @Override
     public void visit(BinOpNode node) {
-        Iterator<Integer> iterator = node.left.getLastPos().iterator();
-        switch (node.operator) {
-            case "°":
-                while(iterator.hasNext()) {
-                    int nextPosition = iterator.next();
-                    FollowposTableEntry followposTableEntry = followposTable.get(nextPosition);
-                    followposTableEntry.followpos.addAll(node.right.getFirstPos());
-                    followposTable.put(nextPosition, followposTableEntry);
-                }
-                break;
-            case "|":
-                break;
-            default:
-                throw new RuntimeException("No valid BinOpNode.");
+        if(!node.operator.equals("°")) return;
+
+        for(int i : ((SyntaxNode) node.left).lastpos) {
+            FollowposTableEntry followposTableEntry = followposTable.get(i);
+            Set<Integer> firstPosRight = ((SyntaxNode) node.right).firstpos;
+            followposTableEntry.followpos.addAll(firstPosRight);
         }
     }
 
     @Override
     public void visit(UnaryOpNode node) {
-        Iterator<Integer> iterator = node.getLastPos().iterator();
-        switch (node.operator) {
-            case "*":
-            case "+":
-                while(iterator.hasNext()) {
-                    int nextPosition = iterator.next();
-                    FollowposTableEntry followposTableEntry = followposTable.get(nextPosition);
-                    followposTableEntry.followpos.addAll(node.getFirstPos());
-                    followposTable.put(nextPosition, followposTableEntry);
-                }
-                break;
-            case "?":
-                break;
-            default:
-                throw new RuntimeException("No valid UnaryOpNode.");
+        if(!node.operator.equals("+") && !node.operator.equals("*")) return;
+
+        for(int i : node.lastpos) {
+            FollowposTableEntry followposTableEntry = followposTable.get(i);
+            Set<Integer> firstPos = node.firstpos;
+            followposTableEntry.followpos.addAll(firstPos);
         }
     }
 }
