@@ -38,16 +38,16 @@ public class SecondVisitorTest {
         // (a|b)*ab
         OperandNode konkatination2Right = new OperandNode("b");
         konkatination2Right.position = 4;
-        konkatination1Right.firstpos.addAll(Arrays.asList(4));
-        konkatination1Right.lastpos.addAll(Arrays.asList(4));
+        konkatination2Right.firstpos.addAll(Arrays.asList(4));
+        konkatination2Right.lastpos.addAll(Arrays.asList(4));
         BinOpNode konkatination2 = new BinOpNode("°", konkatination1, konkatination2Right);
         konkatination2.firstpos.addAll(Arrays.asList(1, 2, 3));
         konkatination2.lastpos.addAll(Arrays.asList(4));
         // (a|b)*abb
         OperandNode konkatination3Right = new OperandNode("b");
         konkatination3Right.position = 5;
-        konkatination1Right.firstpos.addAll(Arrays.asList(5));
-        konkatination1Right.lastpos.addAll(Arrays.asList(5));
+        konkatination3Right.firstpos.addAll(Arrays.asList(5));
+        konkatination3Right.lastpos.addAll(Arrays.asList(5));
         BinOpNode konkatination3 = new BinOpNode("°", konkatination2, konkatination3Right);
         konkatination3.firstpos.addAll(Arrays.asList(1, 2, 3));
         konkatination3.lastpos.addAll(Arrays.asList(5));
@@ -93,10 +93,18 @@ public class SecondVisitorTest {
 
         SecondVisitor visitor = new SecondVisitor();
         DepthFirstIterator.traverse(syntaxTree, visitor);
+        SortedMap<Integer, FollowposTableEntry> result = visitor.getFollowposTable();
+
+        // Output
+        System.out.println("FollowposTable expected:");
+        for(int i = 1; i < 7; i++) {
+            System.out.println(i + ": " + expected.get(i).followpos);
+        }
+        System.out.println("FollowposTable result:");
         for(int i = 1; i < 7; i++) {
             System.out.println(i + ": " + visitor.getFollowposTable().get(i).followpos);
         }
-        SortedMap<Integer, FollowposTableEntry> result = visitor.getFollowposTable();
+
         assertEquals(expected, result);
     }
 }
