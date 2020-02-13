@@ -1,6 +1,5 @@
 package deaErzeuger;
 
-import DEA_Erzeuger.DEA_Erzeuger;
 import lexer.DFAState;
 import org.junit.jupiter.api.Test;
 import second_visitor.FollowposTableEntry;
