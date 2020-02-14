@@ -8,6 +8,7 @@ import java.util.SortedMap;
 import java.util.TreeMap;
 
 public class SecondVisitor implements Visitor {
+    // Matrikelnummer: 3728208
     private SortedMap<Integer, FollowposTableEntry> followposTable = new TreeMap<>();
 
     public SortedMap<Integer, FollowposTableEntry> getFollowposTable() {
