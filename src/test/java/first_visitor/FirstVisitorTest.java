@@ -47,7 +47,7 @@ public class FirstVisitorTest {
 
     public Visitable treeFromParser(){
         //Baum aus Vorlesung (a|b)+(b|c)*#
-        Parser parser = new Parser("(a|b)+(b|c)*d#");
+        Parser parser = new Parser("((a|b)+(b|c)*d)#");
         return parser.start();
     }
 
